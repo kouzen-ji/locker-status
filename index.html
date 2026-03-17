@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<!-- saved from url=(0051)file:///Users/meg_ai/Downloads/kouzenji_locker.html -->
+<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>納骨堂 空き状況 | 光善寺</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&display=swap');
+
+  :root {
+    --empty: #e8f5ee;
+    --empty-border: #7dc4a0;
+    --empty-text: #2d7a52;
+    --used: #ece9e4;
+    --used-border: #b8b2a8;
+    --used-text: #7a7470;
+    --bg: #faf8f5;
+    --surface: #ffffff;
+    --ink: #2c2825;
+    --ink-light: #8a8480;
+    --accent: #7a5c3a;
+    --accent-light: #f0e8de;
+    --border: #e8e2da;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 0 0 48px;
+  }
+
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 24px 18px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .header-inner {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .temple-name {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--ink-light);
+    letter-spacing: 0.2em;
+    margin-bottom: 4px;
+  }
+
+  h1 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+  }
+
+  .updated {
+    font-size: 11px;
+    color: var(--ink-light);
+    text-align: right;
+    line-height: 1.6;
+    flex-shrink: 0;
+  }
+
+  main {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  .stats {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+  }
+
+  .stat {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-num.empty-color { color: var(--empty-text); }
+  .stat-num.used-color { color: var(--used-text); }
+  .stat-num.total-color { color: var(--accent); }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--ink-light);
+    letter-spacing: 0.05em;
+  }
+
+  .legend {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: var(--accent-light);
+    border-radius: 8px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--ink);
+  }
+
+  .legend-box {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .legend-box.empty { background: var(--empty); border: 1.5px solid var(--empty-border); }
+  .legend-box.used { background: var(--used); border: 1.5px solid var(--used-border); }
+
+  .section {
+    margin-bottom: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .section-header {
+    padding: 12px 16px;
+    background: var(--accent-light);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  .section-sub {
+    font-size: 11px;
+    color: var(--ink-light);
+  }
+
+  .grid-wrap {
+    padding: 16px;
+    overflow-x: auto;
+  }
+
+  table {
+    border-collapse: separate;
+    border-spacing: 5px;
+    margin: 0 auto;
+  }
+
+  th {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--ink-light);
+    text-align: center;
+    padding: 2px 4px;
+    letter-spacing: 0.05em;
+    width: 44px;
+  }
+
+  td.row-head {
+    font-size: 11px;
+    color: var(--ink-light);
+    text-align: center;
+    padding-right: 4px;
+    white-space: nowrap;
+    width: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  .cell {
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 11px;
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    transition: transform 0.1s, opacity 0.1s;
+  }
+
+  .cell.empty {
+    background: var(--empty);
+    border: 1.5px solid var(--empty-border);
+    color: var(--empty-text);
+  }
+
+  .cell.used {
+    background: var(--used);
+    border: 1.5px solid var(--used-border);
+    color: var(--used-text);
+  }
+
+  .note {
+    font-size: 11px;
+    color: var(--ink-light);
+    text-align: center;
+    line-height: 1.8;
+    padding: 0 16px;
+    margin-top: 8px;
+  }
+
+  .contact-btn {
+    display: block;
+    margin: 24px auto 0;
+    padding: 14px 32px;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    border-radius: 50px;
+    text-align: center;
+    max-width: 280px;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--ink-light);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+  }
+
+  .error {
+    text-align: center;
+    padding: 32px 24px;
+    color: #c0392b;
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <p class="temple-name">光善寺｜KOUZEN-JI</p>
+      <h1>納骨堂 空き状況</h1>
+    </div>
+    <div class="updated" id="updated-time">2026年3月17日<br>16:35 現在</div>
+  </div>
+</header>
+
+<main>
+  <div id="content">
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num empty-color">55</div>
+        <div class="stat-label">空き</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num used-color">6</div>
+        <div class="stat-label">使用中</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num total-color">61</div>
+        <div class="stat-label">合計区画</div>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-box empty"></div>空き</div>
+      <div class="legend-item"><div class="legend-box used"></div>使用中</div>
+    </div>
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Aタイプ</span>
+      <span class="section-sub">9列 × 5段</span>
+    </div>
+  <div class="grid-wrap"><table><thead><tr><th></th><th>い</th><th>ろ</th><th>は</th><th>に</th><th>ほ</th><th>へ</th><th>と</th><th>ち</th><th>り</th></tr></thead><tbody><tr><td class="row-head">一</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td></tr><tr><td class="row-head">二</td><td class="cell used">使用</td><td class="cell used">使用</td><td class="cell used">使用</td><td class="cell empty">空</td><td class="cell used">使用</td><td class="cell empty">空</td><td class="cell used">使用</td><td class="cell used">使用</td><td class="cell empty">空</td></tr><tr><td class="row-head">三</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td></tr><tr><td class="row-head">四</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td></tr><tr><td class="row-head">五</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td></tr></tbody></table></div></div><div class="section">
+    <div class="section-header">
+      <span class="section-title">Bタイプ</span>
+      <span class="section-sub">4列 × 4段</span>
+    </div>
+  <div class="grid-wrap"><table><thead><tr><th></th><th>ぬ</th><th>る</th><th>を</th><th>わ</th></tr></thead><tbody><tr><td class="row-head">一</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td></tr><tr><td class="row-head">二</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td></tr><tr><td class="row-head">三</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td></tr><tr><td class="row-head">四</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td><td class="cell empty">空</td></tr></tbody></table></div></div>
+      <p class="note">
+        表示はスプレッドシート更新時点の情報です。<br>
+        詳細・ご見学のお申し込みはLINEよりお問い合わせください。
+      </p>
+      <a class="contact-btn" href="https://line.me/R/ti/p/@549puq">LINEでお問い合わせ</a>
+    </div>
+</main>
+
+<script>
+const API_URL = 'https://script.google.com/macros/s/AKfycbzhN6aJsVo1zPmKZ-4b7sEfp72SjScNJ6w0Cj15kDy2CdSyfkjSVleXlXqOB_vSmI81/exec';
+
+const COLS_A = ['い','ろ','は','に','ほ','へ','と','ち','り'];
+const ROWS_A = ['一','二','三','四','五'];
+const COLS_B = ['ぬ','る','を','わ'];
+const ROWS_B = ['一','二','三','四'];
+
+function formatNow() {
+  const n = new Date();
+  const pad = v => String(v).padStart(2,'0');
+  return `${n.getFullYear()}年${n.getMonth()+1}月${n.getDate()}日<br>${pad(n.getHours())}:${pad(n.getMinutes())} 現在`;
+}
+
+function buildTable(data, cols, rows, prefix) {
+  const table = document.createElement('table');
+
+  const thead = document.createElement('thead');
+  const hr = document.createElement('tr');
+  const blank = document.createElement('th');
+  hr.appendChild(blank);
+  cols.forEach(c => {
+    const th = document.createElement('th');
+    th.textContent = c;
+    hr.appendChild(th);
+  });
+  thead.appendChild(hr);
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  rows.forEach(r => {
+    const tr = document.createElement('tr');
+    const rh = document.createElement('td');
+    rh.className = 'row-head';
+    rh.textContent = r;
+    tr.appendChild(rh);
+    cols.forEach(c => {
+      const match = data.find(d => d.type === prefix && d.col === c && d.row === r);
+      const status = match ? (match.status === '使用中' ? 'used' : 'empty') : 'empty';
+      const td = document.createElement('td');
+      td.className = `cell ${status}`;
+      td.textContent = status === 'empty' ? '空' : '使用';
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  return table;
+}
+
+function buildStats(data) {
+  const empty = data.filter(d => d.status !== '使用中').length;
+  const used = data.filter(d => d.status === '使用中').length;
+  const total = data.length;
+
+  return `
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num empty-color">${empty}</div>
+        <div class="stat-label">空き</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num used-color">${used}</div>
+        <div class="stat-label">使用中</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num total-color">${total}</div>
+        <div class="stat-label">合計区画</div>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-box empty"></div>空き</div>
+      <div class="legend-item"><div class="legend-box used"></div>使用中</div>
+    </div>
+  `;
+}
+
+function buildSection(data, title, sub, cols, rows, prefix) {
+  const sec = document.createElement('div');
+  sec.className = 'section';
+  sec.innerHTML = `
+    <div class="section-header">
+      <span class="section-title">${title}</span>
+      <span class="section-sub">${sub}</span>
+    </div>
+  `;
+  const wrap = document.createElement('div');
+  wrap.className = 'grid-wrap';
+  wrap.appendChild(buildTable(data, cols, rows, prefix));
+  sec.appendChild(wrap);
+  return sec;
+}
+
+async function load() {
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
+
+    const content = document.getElementById('content');
+    content.innerHTML = buildStats(data);
+
+    content.appendChild(buildSection(data, 'Aタイプ', '9列 × 5段', COLS_A, ROWS_A, 'A'));
+    content.appendChild(buildSection(data, 'Bタイプ', '4列 × 4段', COLS_B, ROWS_B, 'B'));
+
+    content.innerHTML += `
+      <p class="note">
+        表示はスプレッドシート更新時点の情報です。<br>
+        詳細・ご見学のお申し込みはLINEよりお問い合わせください。
+      </p>
+      <a class="contact-btn" href="https://line.me/R/ti/p/@549puq">LINEでお問い合わせ</a>
+    `;
+
+    document.getElementById('updated-time').innerHTML = formatNow();
+
+  } catch(e) {
+    document.getElementById('content').innerHTML = `<div class="error">データの取得に失敗しました。<br>時間をおいて再度お試しください。</div>`;
+    document.getElementById('updated-time').textContent = '取得エラー';
+  }
+}
+
+load();
+</script>
+
+
+</body></html>
